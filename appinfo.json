@@ -1,7 +1,10 @@
 {
-    "appKeys": {},
+    "appKeys": {
+        "KEY_DIGITAL_WATCH": 1,
+        "KEY_SHOW_SECOND_HAND": 2
+    },
     "capabilities": [
-        ""
+        "configurable"
     ],
     "companyName": "Yuriy Galanter",
     "longName": "Nazar Frames",
@@ -19,7 +22,7 @@
     "shortName": "Nazar Frames",
     "uuid": "46db986a-44f3-4c63-91da-b1b1f4fd74e7",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "1.3",
     "watchapp": {
         "watchface": true
     }

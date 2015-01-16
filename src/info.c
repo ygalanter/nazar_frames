@@ -62,23 +62,49 @@ static void destroy_ui(void) {
 }
 // END AUTO-GENERATED UI CODE
 
-static void handle_window_unload(Window* window) {
-  destroy_ui();
-}
 
 char time_buffer[]="00:00";
 char date_buffer[]="BUM BAM 01 9999";
 char battery_buffer[]="100%";
 
-void show_info(void) {
+static void display_bt_layer(bool connected){
+  if (connected) {
+    text_layer_set_text(s_textlayer_bluetooth, "BT ON");
+  } else {
+    text_layer_set_text(s_textlayer_bluetooth, "BT OFF");
+  };  
+}
+
+
+void init_info() {
   initialise_ui();
-  window_set_window_handlers(s_window, (WindowHandlers) {
-    .unload = handle_window_unload,
-  });
+  bluetooth_connection_service_subscribe(display_bt_layer);
+}
+
+void deinit_info() {
+  bluetooth_connection_service_unsubscribe();
+  destroy_ui();
+}
+
+
+void show_info(void) {
+ 
+  //initial bluetooth info
+  display_bt_layer(bluetooth_connection_service_peek());
   
-  //set info
+  //initial time info
   time_t now = time(NULL);
-  struct tm *tick_time = localtime(&now);
+  struct tm *t = localtime(&now);
+  set_info_time(t);
+  
+  window_stack_push(s_window, true);
+}
+
+void hide_info(void) {
+  window_stack_remove(s_window, true);
+}
+
+void set_info_time(struct tm *tick_time) {
   
    if (!clock_is_24h_style()) {
     
@@ -97,19 +123,6 @@ void show_info(void) {
     strftime(date_buffer, sizeof(date_buffer), "%a %b %d %Y", tick_time);
     text_layer_set_text(s_textlayer_date, date_buffer);
   
-    //bluetooth
-    if (bluetooth_connection_service_peek()) {
-      text_layer_set_text(s_textlayer_bluetooth, "BT ON");
-    } else {
-      text_layer_set_text(s_textlayer_bluetooth, "BT OFF");
-    };
-  
     snprintf(battery_buffer, sizeof(battery_buffer), "%d%%", battery_state_service_peek().charge_percent);
     text_layer_set_text(s_textlayer_battery, battery_buffer);
-  
-  window_stack_push(s_window, true);
-}
-
-void hide_info(void) {
-  window_stack_remove(s_window, true);
 }
