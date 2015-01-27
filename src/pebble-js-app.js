@@ -10,7 +10,9 @@ Pebble.addEventListener("showConfiguration",
     var configuration = JSON.parse(configurationSTR);
     
     //Load the remote config page
-    Pebble.openURL("http://codecorner.galanter.net/pebble/nazar_frames_1_x_config.htm?showSecondHand=" + configuration.showSecondHand + "&digitalWatch=" + configuration.digitalWatch);
+    // Pebble.openURL("http://codecorner.galanter.net/pebble/nazar_frames_1_x_config.htm?showSecondHand=" + configuration.showSecondHand + "&digitalWatch=" + configuration.digitalWatch);
+    Pebble.openURL("http://pebble.galanter.net/nazar-frames-config/?showSecondHand=" + configuration.showSecondHand + "&digitalWatch=" + configuration.digitalWatch);
+    
     
   }
 );
