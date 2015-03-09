@@ -1,7 +1,7 @@
 #include "info.h"
 #include <pebble.h>
 
-// BEGIN AUTO-GENERATED UI CODE; DO NOT MODIFY
+
 static Window *s_window;
 static GFont s_res_gothic_18_bold;
 static GFont s_res_roboto_bold_subset_49;
@@ -12,14 +12,20 @@ static TextLayer *s_textlayer_bluetooth;
 
 static void initialise_ui(void) {
   s_window = window_create();
-  window_set_background_color(s_window, GColorBlack);
+  
+  #ifdef PBL_COLOR
+    window_set_background_color(s_window, GColorOxfordBlue);
+  #else
+    window_set_background_color(s_window, GColorBlack);
+  #endif  
+  
   window_set_fullscreen(s_window, true);
   
   s_res_gothic_18_bold = fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD);
   s_res_roboto_bold_subset_49 = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
   // s_textlayer_date
   s_textlayer_date = text_layer_create(GRect(0, 5, 144, 20));
-  text_layer_set_background_color(s_textlayer_date, GColorBlack);
+  text_layer_set_background_color(s_textlayer_date, GColorClear);
   text_layer_set_text_color(s_textlayer_date, GColorWhite);
   text_layer_set_text(s_textlayer_date, "BUM BAM 01 9999");
   text_layer_set_text_alignment(s_textlayer_date, GTextAlignmentCenter);
@@ -28,7 +34,7 @@ static void initialise_ui(void) {
   
   // s_textlayer_time
   s_textlayer_time = text_layer_create(GRect(0, 52, 144, 58));
-  text_layer_set_background_color(s_textlayer_time, GColorBlack);
+  text_layer_set_background_color(s_textlayer_time, GColorClear);
   text_layer_set_text_color(s_textlayer_time, GColorWhite);
   text_layer_set_text(s_textlayer_time, "00:00");
   text_layer_set_text_alignment(s_textlayer_time, GTextAlignmentCenter);
@@ -37,7 +43,7 @@ static void initialise_ui(void) {
   
   // s_textlayer_battery
   s_textlayer_battery = text_layer_create(GRect(87, 142, 56, 20));
-  text_layer_set_background_color(s_textlayer_battery, GColorBlack);
+  text_layer_set_background_color(s_textlayer_battery, GColorClear);
   text_layer_set_text_color(s_textlayer_battery, GColorWhite);
   text_layer_set_text(s_textlayer_battery, "100%");
   text_layer_set_text_alignment(s_textlayer_battery, GTextAlignmentRight);
@@ -46,7 +52,7 @@ static void initialise_ui(void) {
   
   // s_textlayer_bluetooth
   s_textlayer_bluetooth = text_layer_create(GRect(4, 143, 54, 20));
-  text_layer_set_background_color(s_textlayer_bluetooth, GColorBlack);
+  text_layer_set_background_color(s_textlayer_bluetooth, GColorClear);
   text_layer_set_text_color(s_textlayer_bluetooth, GColorWhite);
   text_layer_set_text(s_textlayer_bluetooth, "BT OFF");
   text_layer_set_font(s_textlayer_bluetooth, s_res_gothic_18_bold);
@@ -60,7 +66,7 @@ static void destroy_ui(void) {
   text_layer_destroy(s_textlayer_battery);
   text_layer_destroy(s_textlayer_bluetooth);
 }
-// END AUTO-GENERATED UI CODE
+
 
 
 char time_buffer[]="00:00";

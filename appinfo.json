@@ -19,10 +19,15 @@
             }
         ]
     },
+    "sdkVersion": "3",
     "shortName": "Nazar Frames",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
     "uuid": "46db986a-44f3-4c63-91da-b1b1f4fd74e7",
     "versionCode": 1,
-    "versionLabel": "1.3",
+    "versionLabel": "2.1",
     "watchapp": {
         "watchface": true
     }

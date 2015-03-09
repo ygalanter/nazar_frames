@@ -17,6 +17,7 @@
 
 #include "string.h"
 #include "stdlib.h"
+#include "antialiasing.h"  
 
 Layer * hands_layer;
 
@@ -38,22 +39,37 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
-
-  graphics_context_set_stroke_color(ctx, GColorWhite);
-
-  gpath_rotate_to(minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
-  gpath_draw_outline(ctx, minute_arrow);
-
-  gpath_rotate_to(hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
-  gpath_draw_outline(ctx, hour_arrow);
   
+  gpath_rotate_to(minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
+  gpath_rotate_to(hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
+
+  #ifdef PBL_COLOR
+    graphics_context_set_stroke_color(ctx, GColorYellow);
+    gpath_draw_outline_antialiased(ctx, minute_arrow);
+    gpath_draw_outline_antialiased(ctx, hour_arrow);
+  #else
+    graphics_context_set_stroke_color(ctx, GColorWhite);
+    gpath_draw_outline(ctx, minute_arrow);
+    gpath_draw_outline(ctx, hour_arrow);
+  #endif
+
   if (bShowSecondHand) {
        gpath_rotate_to(second_arrow, TRIG_MAX_ANGLE * t->tm_sec / 60);
-       gpath_draw_outline(ctx, second_arrow);
+    
+       #ifdef PBL_COLOR
+         gpath_draw_outline_antialiased(ctx, second_arrow);
+       #else
+         gpath_draw_outline(ctx, second_arrow);  
+       #endif
+       
   }
   
   // dot in the middle 
-  graphics_context_set_fill_color(ctx, GColorWhite);
+  #ifdef PBL_COLOR
+    graphics_context_set_fill_color(ctx, GColorBulgarianRose);
+  #else
+    graphics_context_set_fill_color(ctx, GColorWhite);
+  #endif   
   graphics_fill_circle(ctx, GPoint(bounds.size.w / 2, bounds.size.h / 2 - 1) , 4);
 }
 
@@ -170,7 +186,12 @@ static void window_unload(Window *window) {
 static void init(void) {
   setlocale(LC_ALL, "");
   window = window_create();
-  window_set_background_color(window, GColorBlack);
+  
+  #ifdef PBL_COLOR
+    window_set_background_color(window, GColorOxfordBlue);
+  #else
+    window_set_background_color(window, GColorBlack);
+  #endif  
   
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
