@@ -7,7 +7,7 @@
         "configurable"
     ],
     "companyName": "Yuriy Galanter",
-    "longName": "Nazar Frames",
+    "longName": "Meyer Objects",
     "projectType": "native",
     "resources": {
         "media": [
@@ -20,14 +20,14 @@
         ]
     },
     "sdkVersion": "3",
-    "shortName": "Nazar Frames",
+    "shortName": "Meyer Objects",
     "targetPlatforms": [
         "aplite",
         "basalt"
     ],
     "uuid": "46db986a-44f3-4c63-91da-b1b1f4fd74e7",
     "versionCode": 1,
-    "versionLabel": "2.1",
+    "versionLabel": "2.2",
     "watchapp": {
         "watchface": true
     }
