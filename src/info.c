@@ -19,8 +19,6 @@ static void initialise_ui(void) {
     window_set_background_color(s_window, GColorBlack);
   #endif  
   
-  window_set_fullscreen(s_window, true);
-  
   s_res_gothic_18_bold = fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD);
   s_res_roboto_bold_subset_49 = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
   // s_textlayer_date

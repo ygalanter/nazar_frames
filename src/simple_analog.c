@@ -17,7 +17,6 @@
 
 #include "string.h"
 #include "stdlib.h"
-#include "antialiasing.h"  
 
 Layer * hands_layer;
 
@@ -44,26 +43,17 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   gpath_rotate_to(hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
 
   #ifdef PBL_COLOR
-    gpath_draw_outline_antialiased(ctx, minute_arrow, GColorYellow);
-    //gpath_draw_filled_antialiased(ctx, minute_arrow, GColorRed);
-    gpath_draw_outline_antialiased(ctx, hour_arrow, GColorYellow);
+    graphics_context_set_stroke_color(ctx, GColorYellow);
   #else
     graphics_context_set_stroke_color(ctx, GColorWhite);
-    gpath_draw_outline(ctx, minute_arrow);
-    gpath_draw_outline(ctx, hour_arrow);
   #endif
     
-  graphics_context_set_compositing_mode(ctx, GCompOpSet);
-
-  if (bShowSecondHand) {
-       gpath_rotate_to(second_arrow, TRIG_MAX_ANGLE * t->tm_sec / 60);
+ gpath_draw_outline(ctx, minute_arrow);
+ gpath_draw_outline(ctx, hour_arrow);
     
-       #ifdef PBL_COLOR
-         gpath_draw_outline_antialiased(ctx, second_arrow, GColorYellow);
-       #else
-         gpath_draw_outline(ctx, second_arrow);  
-       #endif
-       
+ if (bShowSecondHand) {
+    gpath_rotate_to(second_arrow, TRIG_MAX_ANGLE * t->tm_sec / 60);
+    gpath_draw_outline(ctx, second_arrow);
   }
   
   // dot in the middle 
