@@ -178,7 +178,7 @@ static void window_unload(Window *window) {
 static void init(void) {
   setlocale(LC_ALL, "");
   window = window_create();
-  
+    
   #ifdef PBL_COLOR
     window_set_background_color(window, GColorOxfordBlue);
   #else
@@ -201,7 +201,9 @@ static void init(void) {
   GPoint center = grect_center_point(&bounds);
   
   //correction
-  center.y += 6;
+  #ifndef PBL_COLOR
+    center.y += 6;
+  #endif  
     
   gpath_move_to(minute_arrow, center);
   gpath_move_to(hour_arrow, center);
