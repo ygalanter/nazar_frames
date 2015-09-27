@@ -12,6 +12,8 @@ static TextLayer *s_textlayer_bluetooth;
 
 static void initialise_ui(void) {
   s_window = window_create();
+  Layer *window_layer = window_get_root_layer(s_window);
+  GRect bounds = layer_get_bounds(window_layer);
   
   #ifdef PBL_COLOR
     window_set_background_color(s_window, GColorOxfordBlue);
@@ -22,39 +24,39 @@ static void initialise_ui(void) {
   s_res_gothic_18_bold = fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD);
   s_res_roboto_bold_subset_49 = fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49);
   // s_textlayer_date
-  s_textlayer_date = text_layer_create(GRect(0, 5, 144, 20));
+  s_textlayer_date = text_layer_create(GRect(bounds.origin.x + 0, bounds.origin.y + PBL_IF_RECT_ELSE(5, 25), bounds.size.w, 20));
   text_layer_set_background_color(s_textlayer_date, GColorClear);
   text_layer_set_text_color(s_textlayer_date, GColorWhite);
   text_layer_set_text(s_textlayer_date, "BUM BAM 01 9999");
   text_layer_set_text_alignment(s_textlayer_date, GTextAlignmentCenter);
   text_layer_set_font(s_textlayer_date, s_res_gothic_18_bold);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_date);
+  layer_add_child(window_layer, text_layer_get_layer(s_textlayer_date));
   
   // s_textlayer_time
-  s_textlayer_time = text_layer_create(GRect(0, 52, 144, 58));
+  s_textlayer_time = text_layer_create(GRect(bounds.origin.x + 0, bounds.origin.y + 52, bounds.size.w, 58));
   text_layer_set_background_color(s_textlayer_time, GColorClear);
   text_layer_set_text_color(s_textlayer_time, GColorWhite);
   text_layer_set_text(s_textlayer_time, "00:00");
   text_layer_set_text_alignment(s_textlayer_time, GTextAlignmentCenter);
   text_layer_set_font(s_textlayer_time, s_res_roboto_bold_subset_49);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_time);
+  layer_add_child(window_layer, text_layer_get_layer(s_textlayer_time));
   
   // s_textlayer_battery
-  s_textlayer_battery = text_layer_create(GRect(87, 142, 56, 20));
+  s_textlayer_battery = text_layer_create(GRect(bounds.origin.x + PBL_IF_RECT_ELSE(87, 92), bounds.origin.y + PBL_IF_RECT_ELSE(142, 122), 56, 20));
   text_layer_set_background_color(s_textlayer_battery, GColorClear);
   text_layer_set_text_color(s_textlayer_battery, GColorWhite);
   text_layer_set_text(s_textlayer_battery, "100%");
   text_layer_set_text_alignment(s_textlayer_battery, GTextAlignmentRight);
   text_layer_set_font(s_textlayer_battery, s_res_gothic_18_bold);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_battery);
+  layer_add_child(window_layer, text_layer_get_layer(s_textlayer_battery));
   
   // s_textlayer_bluetooth
-  s_textlayer_bluetooth = text_layer_create(GRect(4, 143, 54, 20));
+  s_textlayer_bluetooth = text_layer_create(GRect(bounds.origin.x + PBL_IF_RECT_ELSE(4, 34),  PBL_IF_RECT_ELSE(142, 122), 54, 20));
   text_layer_set_background_color(s_textlayer_bluetooth, GColorClear);
   text_layer_set_text_color(s_textlayer_bluetooth, GColorWhite);
   text_layer_set_text(s_textlayer_bluetooth, "BT OFF");
   text_layer_set_font(s_textlayer_bluetooth, s_res_gothic_18_bold);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)s_textlayer_bluetooth);
+  layer_add_child(window_layer, text_layer_get_layer(s_textlayer_bluetooth));
 }
 
 static void destroy_ui(void) {

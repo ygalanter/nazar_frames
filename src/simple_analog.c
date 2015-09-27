@@ -39,30 +39,54 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
   
-  gpath_rotate_to(minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
-  gpath_rotate_to(hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
-
+  // Hours 
+ #ifdef PBL_COLOR
+    graphics_context_set_stroke_color(ctx, GColorGreen);
+    graphics_context_set_stroke_width(ctx, 2);
+ #else
+    graphics_context_set_stroke_color(ctx, GColorWhite);
+ #endif
+ 
+ gpath_rotate_to(hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));    
+ gpath_draw_outline(ctx, hour_arrow);
+  
+  
+  // Minutes
   #ifdef PBL_COLOR
     graphics_context_set_stroke_color(ctx, GColorYellow);
+    graphics_context_set_stroke_width(ctx, 2);
   #else
     graphics_context_set_stroke_color(ctx, GColorWhite);
   #endif
-    
+ 
+ gpath_rotate_to(minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);    
  gpath_draw_outline(ctx, minute_arrow);
- gpath_draw_outline(ctx, hour_arrow);
-    
+  
+  
  if (bShowSecondHand) {
+   
+      #ifdef PBL_COLOR
+        graphics_context_set_stroke_color(ctx, GColorWhite);
+        graphics_context_set_stroke_width(ctx, 1);
+      #else
+        graphics_context_set_stroke_color(ctx, GColorWhite);
+      #endif
+   
     gpath_rotate_to(second_arrow, TRIG_MAX_ANGLE * t->tm_sec / 60);
     gpath_draw_outline(ctx, second_arrow);
   }
   
   // dot in the middle 
   #ifdef PBL_COLOR
-    graphics_context_set_fill_color(ctx, GColorBulgarianRose);
+    graphics_context_set_fill_color(ctx, GColorRed);
+    graphics_fill_circle(ctx, GPoint(bounds.size.w / 2, bounds.size.h / 2) , 8);
+    graphics_context_set_fill_color(ctx, GColorDarkCandyAppleRed);
+    graphics_fill_circle(ctx, GPoint(bounds.size.w / 2, bounds.size.h / 2) , 3);
   #else
     graphics_context_set_fill_color(ctx, GColorWhite);
+    graphics_fill_circle(ctx, GPoint(bounds.size.w / 2, bounds.size.h / 2) , 4);
   #endif   
-  graphics_fill_circle(ctx, GPoint(bounds.size.w / 2, bounds.size.h / 2 - 1) , 4);
+  
 }
 
 static void handle_minute_tick(struct tm *tick_time, TimeUnits units_changed) {
